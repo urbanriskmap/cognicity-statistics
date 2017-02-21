@@ -5,26 +5,12 @@ var request=require('request');
 exports.handler = function(event, context, callback) {
     console.log("\n\nLoading handler\n\n");
 
-    request('https://'+process.env.BASE_URL+'/reports?city=jbd', function (error, response, body) {
+    request('https://'+process.env.BASE_URL+'/floods?minimum_state=1', function (error, response, body) {
       if (!error && response.statusCode == 200) {
           var results = JSON.parse(body);
-          console.log(results);
-          var total_count = results.result.objects.output.geometries.length;
-          console.log(String(total_count));
-          var grasp_count=0, qlue_count=0, detik_count=0;
+          var flooded_regions = new Set();
           for (var i = 0; i < results.result.objects.output.geometries.length; i++) {
-            console.log("got here");
-            console.log(results.result.objects.output.geometries[i].properties.source);
-            switch(results.result.objects.output.geometries[i].properties.source) {
-              case "qlue":
-                qlue_count++;
-                break;
-              case "detik":
-                detik_count++;
-                break;
-              case "grasp":
-                grasp_count++
-            }
+            flooded_regions.add(results.result.objects.output.geometries[i].properties.parent_name);
           }
           var myResponse = {
             statusCode: 200,
@@ -32,7 +18,7 @@ exports.handler = function(event, context, callback) {
               "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
               "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
             },
-              body: JSON.stringify({ "total number of reports": String(total_count), "total number of qlue reports": String(qlue_count), "total number of detik reports": String(detik_count), "total number of Twitter & Telegram reports": String(grasp_count) })
+              body: JSON.stringify({ "total number of regions with flooded RWs": String(flooded_regions.size), "regions with flooded RWs": Array.from(flooded_regions) })
             };
             console.log(myResponse);
             callback(null, myResponse);

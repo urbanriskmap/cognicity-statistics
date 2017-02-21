@@ -35,3 +35,21 @@ functions:
           path: getReportsSummary
           method: get
           cors: true
+  getFloodedRegionsSummary:
+    handler: getFloodedRegionsSummary.handler
+    environment:
+      BASE_URL: data.petabencana.id
+    events:
+      - http:
+          path: getFloodedRegionsSummary
+          method: get
+          cors: true
+  getFloodedRWsSummary:
+    handler: getFloodedRWsSummary.handler
+    environment:
+      BASE_URL: data.petabencana.id
+    events:
+      - http:
+          path: getFloodedRWsSummary
+          method: get
+          cors: true
