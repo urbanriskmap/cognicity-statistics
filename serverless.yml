@@ -1,0 +1,37 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: petabencana-hr # NOTE: update this with your service name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+
+# you can overwrite defaults here
+  stage: prod
+  region: ap-southeast-1
+
+functions:
+  getReportsSummary:
+    handler: getReportsSummary.handler
+    environment:
+      BASE_URL: data.petabencana.id
+    events:
+      - http:
+          path: getReportsSummary
+          method: get
+          cors: true
