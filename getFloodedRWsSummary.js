@@ -11,7 +11,7 @@ exports.handler = function(event, context, callback) {
           var flooded_RWs = [0,0,0,0,0];
 
           for (var i = 0; i < results.result.objects.output.geometries.length; i++) {
-            flooded_RWs[results.result.objects.output.geometries[i].properties.state].add(results.result.objects.output.geometries[i].properties.parent_name);
+            flooded_RWs[results.result.objects.output.geometries[i].properties.state]++;
           }
           var myResponse = {
             statusCode: 200,
