@@ -5,7 +5,14 @@ var request=require('request');
 exports.handler = function(event, context, callback) {
     console.log("\n\nLoading handler\n\n");
 
-    request('https://'+process.env.BASE_URL+'/floods?minimum_state=1', function (error, response, body) {
+    var url = 'https://'+process.env.BASE_URL+'/floods?minimum_state=1';
+    if (event.queryStringParameters) {
+      if (event.queryStringParameters.city) {
+        url += '&city='+event.queryStringParameters.city;
+      }
+    }
+
+    request(url, function (error, response, body) {
       if (!error && response.statusCode == 200) {
           var results = JSON.parse(body);
           var flooded_RWs = [0,0,0,0,0];
