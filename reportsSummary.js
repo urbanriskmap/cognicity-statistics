@@ -4,8 +4,17 @@ var request=require('request');
 
 exports.handler = function(event, context, callback) {
     console.log("\n\nLoading handler\n\n");
+    var url = 'https://'+process.env.BASE_URL+'/reports';
+    if (event.queryStringParameters) {
+      if (event.queryStringParameters.city) {
+        url += '?city='+event.queryStringParameters.city;
+      }
+      if (event.queryStringParameters.timeperiod) {
+        url += '&timeperiod='+event.queryStringParameters.timeperiod;
+      }
+    }
 
-    request('https://'+process.env.BASE_URL+'/reports?city=jbd', function (error, response, body) {
+    request(url, function (error, response, body) {
       if (!error && response.statusCode == 200) {
           var results = JSON.parse(body);
           console.log(results);
@@ -32,7 +41,7 @@ exports.handler = function(event, context, callback) {
               "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
               "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
             },
-              body: JSON.stringify({ "total number of reports": String(total_count), "total number of qlue reports": String(qlue_count), "total number of detik reports": String(detik_count), "total number of Twitter & Telegram reports": String(grasp_count) })
+              body: JSON.stringify({ "total number of reports": total_count, "total number of qlue reports": qlue_count, "total number of detik reports": detik_count, "total number of Twitter & Telegram reports": grasp_count })
             };
             console.log(myResponse);
             callback(null, myResponse);
