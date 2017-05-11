@@ -29,7 +29,7 @@ functions:
   reportsSummary:
     handler: reportsSummary.handler
     environment:
-      BASE_URL: data-dev.petabencana.id
+      BASE_URL: data.petabencana.id
     events:
       - http:
           path: getReportsSummary
