@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: petabencana-hr # NOTE: update this with your service name
+service: cognicity-statistics # NOTE: update this with your service name
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -32,11 +32,11 @@ functions:
       BASE_URL: data.petabencana.id
     events:
       - http:
-          path: getReportsSummary
+          path: reportsSummary
           method: get
           cors: true
 
-  getFloodedRegionsSummary:
+  floodedRegionsSummary:
     handler: floodedRegionsSummary.handler
     environment:
       BASE_URL: data.petabencana.id
@@ -45,7 +45,7 @@ functions:
           path: floodedRegionsSummary
           method: get
           cors: true
-  getFloodedRWsSummary:
+  floodedRWsSummary:
     handler: floodedRWsSummary.handler
     environment:
       BASE_URL: data.petabencana.id
