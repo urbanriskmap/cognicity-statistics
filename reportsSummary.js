@@ -54,7 +54,7 @@ exports.handler = function(event, context, callback) {
             },
               body: body
             };
-            callback(null, myResponse);
+            callback(null, myErrorResponse);
         }
     });
   }
