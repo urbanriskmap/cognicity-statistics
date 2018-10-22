@@ -46,13 +46,14 @@ exports.handler = function(event, context, callback) {
             console.log(myResponse);
             callback(null, myResponse);
         } else {
+          console.log(error);
           var myErrorResponse = {
-            statusCode: response.statusCode,
+            statusCode: 503,
             headers: {
               "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
               "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
             },
-              body: body
+              body: JSON.stringify({"error": error})
             };
             callback(null, myErrorResponse);
         }
